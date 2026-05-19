@@ -1,14 +1,21 @@
 import { randomBytes, createHmac } from "node:crypto";
 import { Router } from "express";
 import { eq } from "drizzle-orm";
-import db from "../db";
-import { usersTable } from "../models";
+import db from "../db/index.js";
+import { usersTable } from "../models/index.js";
+import { signupPostRequestBodySchema } from "../validations/request.validation.js";
 
 const router = Router();
 
-router.get("/singup", async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+router.post("/signup", async (req, res) => {
+  const validationResult = await signupPostRequestBodySchema.safeParseAsync(req.body);
 
+  if(validationResult.error) {
+    return res.status(400).json({ error: validationResult.error.format() });
+  }
+
+  const { firstName, lastName, email, password } = validationResult.data;
+  
   const [existingUser] = await db
     .select({
       id: usersTable.id,
