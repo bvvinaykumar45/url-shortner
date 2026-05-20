@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken";
 import z from "zod";
 import {
   signupPostRequestBodySchema,
@@ -6,6 +5,7 @@ import {
 } from "../validations/request.validation.js";
 import { getUserByEmail, createNewUser } from "../services/user.service.js";
 import { hashPasswordWithSalt } from "../utils/hash.js";
+import { createUserToken } from "../utils/token.js";
 
 export const userSignUpController = async (req, res) => {
   const validationResult = await signupPostRequestBodySchema.safeParseAsync(req.body,);
@@ -65,7 +65,7 @@ export const userLoginController = async (req, res) => {
     return res.status(400).json({ error: `Invalid Password` });
   }
 
-  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+  const token = await createUserToken({ id: user.id });
 
   return res.status(200).json({ token });
 };
