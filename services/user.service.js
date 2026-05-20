@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm"
+import { eq } from "drizzle-orm";
 import db from "../db/index.js";
 import { usersTable } from "../models/user.model.js";
 
@@ -10,6 +10,7 @@ export async function getUserByEmail(email) {
       lastName: usersTable.lastName,
       email: usersTable.email,
       salt: usersTable.salt,
+      password: usersTable.password,
     })
     .from(usersTable)
     .where(eq(usersTable.email, email));
