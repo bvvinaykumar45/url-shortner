@@ -11,11 +11,12 @@ import {
 
 const router = Router();
 
-router.get("/codes", ensureAuthenticated, getAllShortUrlsController);
+router.get("/urls", ensureAuthenticated, getAllShortUrlsController);
+router.patch("/urls/:id", ensureAuthenticated, updateUrlController);
+router.delete("/urls/:id", ensureAuthenticated, deleteShortUrlController);
+
 router.post("/shorten", ensureAuthenticated, shortenUrlController);
 
 router.get("/:shortCode", redirectUrlController);
-router.patch("/:id", ensureAuthenticated, updateUrlController);
-router.delete("/:id", ensureAuthenticated, deleteShortUrlController);
 
 export default router;
