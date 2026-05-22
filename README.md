@@ -51,4 +51,5 @@ npm install express drizzle-orm pg jsonwebtoken bcrypt dotenv
   | GET     | `/:shortCode` | Redirect to the original URL               | ❌               |  
   | GET     | `/urls`       | Get all URLs created by the logged-in user | ✅               |
   | DELETE  | `/urls/:id`   | Delete a short URL (if it belogns to user) | ✅               |
+  | PATCH   | `/urls/:id`   | Update a short URL (if it belongs to user) | ✅               |
   
