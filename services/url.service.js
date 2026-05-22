@@ -26,3 +26,12 @@ export const getUrlByShortCode = async (shortCode) => {
 
   return result;
 };
+
+export const getAllShortUrlsByUserId = async (userId) => {
+  const codes = await db
+    .select()
+    .from(urlsTable)
+    .where(eq(urlsTable.userId, userId));
+
+  return codes;
+};

@@ -2,7 +2,7 @@ import { z } from "zod";
 import { nanoid } from "nanoid";
 
 import { shortenPostRequestBodySchema } from "../validations/request.validation.js";
-import { getUrlByShortCode, insertNewShortCode } from "../services/url.service.js";
+import { getAllShortUrlsByUserId, getUrlByShortCode, insertNewShortCode } from "../services/url.service.js";
 
 export const shortenUrlController = async (req, res) => {
   const validationResult = await shortenPostRequestBodySchema.safeParseAsync(req.body);
@@ -40,4 +40,12 @@ export const redirectUrlController = async (req, res) => {
   }
 
   return res.redirect(result.targetURL);
+}
+
+export const getAllShortUrlsController = async (req, res) => {
+  const userId = req.user.id;
+
+  const codes = await getAllShortUrlsByUserId(userId);
+
+  return res.json({ codes });
 }
