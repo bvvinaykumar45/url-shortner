@@ -41,3 +41,17 @@ export const deleteShortUrlById = async (id, userId) => {
     .delete(urlsTable)
     .where(and(eq(urlsTable.id, id), eq(urlsTable.userId, userId)));
 };
+
+export const updateUrlById = async (id, userId, payload) => {
+  const [result] = await db
+    .update(urlsTable)
+    .set(payload)
+    .where(and(eq(urlsTable.id, id), eq(urlsTable.userId, userId)))
+    .returning({
+      id: urlsTable.id,
+      targetURL: urlsTable.targetURL,
+      shortCode: urlsTable.shortCode,
+    });
+
+  return result;
+};

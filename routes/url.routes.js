@@ -6,13 +6,16 @@ import {
   getAllShortUrlsController,
   redirectUrlController,
   shortenUrlController,
+  updateUrlController,
 } from "../controllers/url.controller.js";
 
 const router = Router();
 
-router.post("/shorten", ensureAuthenticated, shortenUrlController);
 router.get("/codes", ensureAuthenticated, getAllShortUrlsController);
-router.delete("/:id", ensureAuthenticated, deleteShortUrlController);
+router.post("/shorten", ensureAuthenticated, shortenUrlController);
+
 router.get("/:shortCode", redirectUrlController);
+router.patch("/:id", ensureAuthenticated, updateUrlController);
+router.delete("/:id", ensureAuthenticated, deleteShortUrlController);
 
 export default router;
